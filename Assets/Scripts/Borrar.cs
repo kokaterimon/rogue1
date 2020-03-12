@@ -5,6 +5,7 @@ using UnityEngine;
 public class Borrar : MonoBehaviour
 {
     //Esto está hecho en cu pc de Brus
+    //Esto està hecho en la pc de Hirosho
     // Start is called before the first frame update
     void Start()
     {

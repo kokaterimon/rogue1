@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -39,13 +40,13 @@ public class Player : MovingObject{
         food--;
         base.AttemptMove(xDir, yDir);
         CheckIfGameOver();
-        GameManager.instance.playerTurn = false;
+        GameManager.instance.playersTurn = false;
     }
     
     // Update is called once per frame
     void Update()
     {
-        if (!GameManager.instance.playerTurn) return;
+        if (!GameManager.instance.playersTurn) return;
 
         int horizontal;
         int vertical;

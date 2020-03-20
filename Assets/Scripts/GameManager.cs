@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour{
 
     public BoardManager boardScript;
     public int playerFoodPoints = 100;
-    [HideInInspector]public bool playerTurn = true;
+    [HideInInspector]public bool playersTurn = true;
 
     private void Awake()
     {

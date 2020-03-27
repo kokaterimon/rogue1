@@ -35,28 +35,24 @@ public class Enemy : MovingObject{
         skipMove = true;
     }
 
-    public void MoveEnemy()
+    public void moveEnemy()
     {
-        int xDir, yDir;
+        int xDir = 0;
+        int yDir = 0;
         if (Math.Abs(target.position.x - transform.position.x) < float.Epsilon)
         {
             yDir = target.position.y > transform.position.y ? 1 : -1;
+        }else
+        {
+            xDir = target.position.x > transform.position.x ? 1 : -1;
         }
-    }
-
-    public void moveEnemy()
-    {
-        int xDir, yDir;
-        //if()
-
+        AttemptMove(xDir, yDir);
     }
 
     protected override void OnCantMove(GameObject go)
     {
-
+        //FALTA CÒDIGO AQUÌ
     }
-
-
 
 }      
 

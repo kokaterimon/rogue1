@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour{
@@ -8,6 +9,7 @@ public class GameManager : MonoBehaviour{
     public static GameManager instance;
     public float turnDelay = 0.01f;
     public float levelStartDelay = 2f;
+    public bool doingSetup;
 
     public BoardManager boardScript;
     public int playerFoodPoints = 100;
@@ -19,8 +21,7 @@ public class GameManager : MonoBehaviour{
     private int level = 1;
     private GameObject levelImage;
     private Text levelText;
-    private bool doingSetup;
-
+    
     private void Awake()
     {
         if (GameManager.instance == null)
@@ -51,11 +52,11 @@ public class GameManager : MonoBehaviour{
         levelImage.SetActive(true);
 
         enemies.Clear();
-        boardScript.SetupScene(3);
+        boardScript.SetupScene(level);
 
-
+        Invoke("HideLevelImage", levelStartDelay);
     }
-
+    
     private void HideLevelImage()
     {
         levelImage.SetActive(false);
@@ -64,6 +65,8 @@ public class GameManager : MonoBehaviour{
 
     public void GameOver()
     {
+        levelText.text = "After " + level + " days, you starved.";
+        levelImage.SetActive(true);
         enabled = false;
     }
 
@@ -84,8 +87,8 @@ public class GameManager : MonoBehaviour{
         enemiesMoving = false;
     }
     private void Update()
-    {
-        if (playersTurn || enemiesMoving) return;
+    {   
+        if (playersTurn || enemiesMoving ||  doingSetup) return;
 
         StartCoroutine(MoveEnemies());  
     }
@@ -93,5 +96,21 @@ public class GameManager : MonoBehaviour{
     public void AddEnemyToList(Enemy enemy)
     {
         enemies.Add(enemy);
+    }
+
+    private void OnEnabled()
+    {
+        SceneManager.sceneLoaded += OnLevelFinishedLoading;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnLevelFinishedLoading;
+    }
+
+    private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
+    {
+        level++;
+        InitGame();
     }
 }

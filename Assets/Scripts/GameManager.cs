@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour{
 
     public static GameManager instance;
     public float turnDelay = 0.01f;
+    public float levelStartDelay = 2f;
 
     public BoardManager boardScript;
     public int playerFoodPoints = 100;
@@ -13,6 +15,11 @@ public class GameManager : MonoBehaviour{
 
     private List<Enemy> enemies = new List<Enemy>();
     private bool enemiesMoving;
+
+    private int level = 1;
+    private GameObject levelImage;
+    private Text levelText;
+    private bool doingSetup;
 
     private void Awake()
     {
@@ -37,8 +44,22 @@ public class GameManager : MonoBehaviour{
 
     void InitGame()
     {
+        doingSetup = true;
+        levelImage = GameObject.Find("LevelImage");
+        levelText = GameObject.Find("LevelText").GetComponent<Text>();
+        levelText.text = "Day " + level;
+        levelImage.SetActive(true);
+
         enemies.Clear();
         boardScript.SetupScene(3);
+
+
+    }
+
+    private void HideLevelImage()
+    {
+        levelImage.SetActive(false);
+        doingSetup = false;
     }
 
     public void GameOver()

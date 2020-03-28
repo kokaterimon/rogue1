@@ -4,8 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy : MovingObject{
-
-
+    
     public int playerDamage;
 
     private Animator animator;
@@ -20,6 +19,7 @@ public class Enemy : MovingObject{
 
     protected override void Start()
     {
+        GameManager.instance.AddEnemyToList(this);
         target = GameObject.FindGameObjectWithTag("Player").transform;
         base.Start();
     }
@@ -35,14 +35,15 @@ public class Enemy : MovingObject{
         skipMove = true;
     }
 
-    public void moveEnemy()
+    public void MoveEnemy()
     {
         int xDir = 0;
         int yDir = 0;
         if (Math.Abs(target.position.x - transform.position.x) < float.Epsilon)
         {
             yDir = target.position.y > transform.position.y ? 1 : -1;
-        }else
+        }
+        else
         {
             xDir = target.position.x > transform.position.x ? 1 : -1;
         }
@@ -51,9 +52,13 @@ public class Enemy : MovingObject{
 
     protected override void OnCantMove(GameObject go)
     {
-        //FALTA CÒDIGO AQUÌ
+        Player hitPlayer = go.GetComponent<Player>();
+        if (hitPlayer != null)
+        {
+            hitPlayer.LoseFood(playerDamage);
+            animator.SetTrigger("enemyAttack");
+        }
     }
-
-}      
+}
 
     

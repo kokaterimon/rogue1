@@ -10,8 +10,7 @@ public abstract class MovingObject : MonoBehaviour{
     private float movemetSpeed;
     private BoxCollider2D boxCollider;
     private Rigidbody2D rb2D;
-    private Vector2 newPosition;
-
+    
     protected virtual void Awake()
     {
         boxCollider = GetComponent<BoxCollider2D>();
@@ -28,7 +27,7 @@ public abstract class MovingObject : MonoBehaviour{
         float remainigDistance = Vector2.Distance(rb2D.position, end);
         while (remainigDistance > float.Epsilon)
         {
-            Vector2 newPOsition = Vector2.MoveTowards(rb2D.position, end, movemetSpeed * Time.deltaTime);
+            Vector2 newPosition = Vector2.MoveTowards(rb2D.position, end, movemetSpeed * Time.deltaTime);
             rb2D.MovePosition(newPosition);
             remainigDistance = Vector2.Distance(rb2D.position, end);
             yield return null;

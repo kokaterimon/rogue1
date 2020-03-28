@@ -19,6 +19,7 @@ public class Enemy : MovingObject{
 
     protected override void Start()
     {
+        GameManager.instance.AddEnemyToList(this);
         target = GameObject.FindGameObjectWithTag("Player").transform;
         base.Start();
     }
@@ -33,7 +34,6 @@ public class Enemy : MovingObject{
         base.AttemptMove(xDir, yDir);
         skipMove = true;
     }
-
 
     public void MoveEnemy()
     {
@@ -51,9 +51,13 @@ public class Enemy : MovingObject{
 
     protected override void OnCantMove(GameObject go)
     {
-        //FALTA CÓDIGO AQUÍ
+        Player hitPlayer = go.GetComponent<Player>();
+        if (hitPlayer != null)
+        {
+            hitPlayer.LoseFood(playerDamage);
+            animator.SetTrigger("enemyAttack");
+        }
     }
 
-
-
-}
+}       
+ 

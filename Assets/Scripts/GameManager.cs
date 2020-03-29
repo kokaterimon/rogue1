@@ -1,34 +1,33 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour{
 
     public static GameManager instance;
-    public float turnDelay = 0.01f;
+    public float turnDelay = 0.1f;
     public float levelStartDelay = 2f;
-    public bool doingSetup;
-
+    
+ 
     public BoardManager boardScript;
     public int playerFoodPoints = 100;
     [HideInInspector]public bool playersTurn = true;
-
+    
     private List<Enemy> enemies = new List<Enemy>();
     private bool enemiesMoving;
 
     private int level = 1;
     private GameObject levelImage;
     private Text levelText;
-    
+    private bool doingSetup;
+   
     private void Awake()
     {
         if (GameManager.instance == null)
         {
             GameManager.instance = this;
-        }
-        else if (GameManager.instance != this)
+        }else if(GameManager.instance != this)
         {
             Destroy(gameObject);
         }
@@ -45,28 +44,13 @@ public class GameManager : MonoBehaviour{
 
     void InitGame()
     {
-        doingSetup = true;
-        levelImage = GameObject.Find("LevelImage");
-        levelText = GameObject.Find("LevelText").GetComponent<Text>();
-        levelText.text = "Day " + level;
-        levelImage.SetActive(true);
-
         enemies.Clear();
         boardScript.SetupScene(level);
-
         Invoke("HideLevelImage", levelStartDelay);
     }
     
-    private void HideLevelImage()
-    {
-        levelImage.SetActive(false);
-        doingSetup = false;
-    }
-
     public void GameOver()
-    {
-        levelText.text = "After " + level + " days, you starved.";
-        levelImage.SetActive(true);
+    {        
         enabled = false;
     }
 
@@ -88,7 +72,7 @@ public class GameManager : MonoBehaviour{
     }
     private void Update()
     {   
-        if (playersTurn || enemiesMoving ||  doingSetup) return;
+        if (playersTurn || enemiesMoving) return;
 
         StartCoroutine(MoveEnemies());  
     }
@@ -96,21 +80,5 @@ public class GameManager : MonoBehaviour{
     public void AddEnemyToList(Enemy enemy)
     {
         enemies.Add(enemy);
-    }
-
-    private void OnEnabled()
-    {
-        SceneManager.sceneLoaded += OnLevelFinishedLoading;
-    }
-
-    private void OnDisable()
-    {
-        SceneManager.sceneLoaded -= OnLevelFinishedLoading;
-    }
-
-    private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
-    {
-        level++;
-        InitGame();
     }
 }

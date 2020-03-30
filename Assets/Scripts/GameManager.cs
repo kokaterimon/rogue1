@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour{
     private List<Enemy> enemies = new List<Enemy>();
     private bool enemiesMoving;
 
-    private int level = 1;
+    private int level = 00;
     private GameObject levelImage;
     private Text levelText;
     

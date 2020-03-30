@@ -25,7 +25,7 @@ public class BoardManager : MonoBehaviour{
                 gridPositions.Add(new Vector2(x, y));
             }
         }
-         //       Debug.Log("Fin");
+         //Debug.Log("Fin");
     }
 
     Vector2 RandomPosition()

@@ -11,6 +11,7 @@ public class Player : MovingObject{
     public int pointsPerFood = 10;
     public int pointsPerSoda = 20;
     public float restartLevelDelay = 1f;
+    public Text foodText;
     
     private Animator animator;
     private int food;
@@ -23,6 +24,7 @@ public class Player : MovingObject{
     protected override void Start()
     {
         food = GameManager.instance.playerFoodPoints;
+        foodText.text = "food: " + food;
         base.Start();
     }
 
@@ -38,7 +40,8 @@ public class Player : MovingObject{
 
     protected override void AttemptMove(int xDir, int yDir)
     {
-        food--;        
+        food--;
+        foodText.text = "food: " + food;
         base.AttemptMove(xDir, yDir);
         CheckIfGameOver();
         GameManager.instance.playersTurn = false;
@@ -47,7 +50,7 @@ public class Player : MovingObject{
     // Update is called once per frame
     void Update()
     {
-        if (!GameManager.instance.playersTurn) return;
+        if (!GameManager.instance.playersTurn || GameManager.instance.doingSetup) return;
 
         int horizontal;
         int vertical;
@@ -66,7 +69,6 @@ public class Player : MovingObject{
             animator.SetTrigger("playerChop");
         }
     }
-
     void Restart()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
@@ -75,6 +77,7 @@ public class Player : MovingObject{
     public void LoseFood(int loss)
     {
         food -= loss;
+        foodText.text = "-" + loss + "food: " + food;
         animator.SetTrigger("playerHit");
         CheckIfGameOver();
     }
@@ -88,11 +91,12 @@ public class Player : MovingObject{
         }else if (other.CompareTag("Food"))
         {
             food += pointsPerFood;
+            foodText.text = "+"+pointsPerFood+"food: " + food;
             other.gameObject.SetActive(false);
         }else if (other.CompareTag("Soda"))
         {
             food += pointsPerSoda;
-          
+            foodText.text = "+" + pointsPerSoda + "food: " + food;
             other.gameObject.SetActive(false);
         }
     }

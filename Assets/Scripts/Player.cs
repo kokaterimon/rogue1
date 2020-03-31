@@ -49,6 +49,7 @@ public class Player : MovingObject{
         food--;
         foodText.text = "food: " + food;
         bool canMove = base.AttemptMove(xDir, yDir);
+        if (canMove) SoundManager.instance.RandomizeSfx(moveSound1, moveSound2);
         CheckIfGameOver();
         GameManager.instance.playersTurn = false;
         return canMove;
@@ -64,7 +65,7 @@ public class Player : MovingObject{
         horizontal = (int)Input.GetAxisRaw("Horizontal");
         vertical = (int)Input.GetAxisRaw("Vertical");
         if (horizontal != 0) vertical = 0;
-        if (horizontal != 0 || vertical != 0) AttemptMove(horizontal, vertical);
+        if (horizontal != 0 || vertical != 0) AttemptMove(horizontal, vertical);        
     }
 
     protected override void OnCantMove(GameObject go)

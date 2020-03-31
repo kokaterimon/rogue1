@@ -21,8 +21,7 @@ public class GameManager : MonoBehaviour{
     private int level = 0;
     private GameObject levelImage;
     private Text levelText;
-    
-   
+           
     private void Awake()
     {
         if (GameManager.instance == null)

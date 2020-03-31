@@ -25,15 +25,20 @@ public class SoundManager : MonoBehaviour{
         DontDestroyOnLoad(gameObject);
     }
 
-    // Start is called before the first frame update
-    void Start()
+    public void PlaySingle(AudioClip clip)
     {
-        
+        sfxSource.pitch = 1f;
+        sfxSource.clip = clip;
+        sfxSource.Play();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void RandomizeSfx(params AudioClip[] clips)
     {
-        
+        int randomIndex = Random.Range(0, clips.Length);
+        float randomPitch = Random.Range(lowPitchRange, highPitchRange);
+        sfxSource.pitch = randomPitch;
+        sfxSource.clip = clips[randomIndex];
+        sfxSource.Play();
     }
+
 }

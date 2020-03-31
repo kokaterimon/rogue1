@@ -17,10 +17,12 @@ public class SoundManager : MonoBehaviour{
         if (SoundManager.instance == null)
         {
             SoundManager.instance = this;
-        }else if (SoundManager.instance)
+        }else if (SoundManager.instance != this)
         {
-
+            Destroy(gameObject);
         }
+
+        DontDestroyOnLoad(gameObject);
     }
 
     // Start is called before the first frame update

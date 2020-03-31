@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour{
     private List<Enemy> enemies = new List<Enemy>();
     private bool enemiesMoving;
 
-    private int level = 00;
+    private int level = 0;
     private GameObject levelImage;
     private Text levelText;
     
@@ -36,12 +36,7 @@ public class GameManager : MonoBehaviour{
         DontDestroyOnLoad(gameObject);
     
         boardScript = GetComponent<BoardManager>();
-    }
-
-    private void Start()
-    {
-        InitGame();
-    }
+    } 
 
     void InitGame()
     {

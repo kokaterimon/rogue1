@@ -24,15 +24,16 @@ public class Enemy : MovingObject{
         base.Start();
     }
 
-    protected override void AttemptMove(int xDir, int yDir)
+    protected override bool AttemptMove(int xDir, int yDir)
     {
         if (skipMove)
         {
             skipMove = false;
-            return;
+            return false;
         }
-        base.AttemptMove(xDir, yDir);
+        bool canMove = base.AttemptMove(xDir, yDir);
         skipMove = true;
+        return canMove;
     }
 
     public void MoveEnemy()

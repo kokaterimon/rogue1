@@ -7,6 +7,8 @@ using UnityEngine.UI;
 
 public class Player : MovingObject{
 
+    public AudioClip moveSound1, moveSound2, eatSound1, eatSound2, drinkSound1, drinkSound2, gameOverSound;
+
     public int wallDamage = 1;
     public int pointsPerFood = 10;
     public int pointsPerSoda = 20;
@@ -35,16 +37,21 @@ public class Player : MovingObject{
 
     void CheckIfGameOver()
     {
-        if (food <= 0) GameManager.instance.GameOver();
+        if (food <= 0)
+        {
+            SoundManager.instance.PlaySingle(gameOverSound);
+            GameManager.instance.GameOver();
+        }
     }
 
-    protected override void AttemptMove(int xDir, int yDir)
+    protected override bool AttemptMove(int xDir, int yDir)
     {
         food--;
         foodText.text = "food: " + food;
-        base.AttemptMove(xDir, yDir);
+        bool canMove = base.AttemptMove(xDir, yDir);
         CheckIfGameOver();
         GameManager.instance.playersTurn = false;
+        return canMove;
     }
     
     // Update is called once per frame
@@ -91,11 +98,13 @@ public class Player : MovingObject{
         }else if (other.CompareTag("Food"))
         {
             food += pointsPerFood;
+            SoundManager.instance.RandomizeSfx(eatSound1, eatSound2);
             foodText.text = "+"+pointsPerFood+"food: " + food;
             other.gameObject.SetActive(false);
         }else if (other.CompareTag("Soda"))
         {
             food += pointsPerSoda;
+            SoundManager.instance.RandomizeSfx(drinkSound1, drinkSound2);
             foodText.text = "+" + pointsPerSoda + "food: " + food;
             other.gameObject.SetActive(false);
         }

@@ -14,14 +14,13 @@ public class GameManager : MonoBehaviour{
     public BoardManager boardScript;
     public int playerFoodPoints = 100;
     [HideInInspector]public bool playersTurn = true;
-    
+
     private List<Enemy> enemies = new List<Enemy>();
     private bool enemiesMoving;
-
+        
     private int level = 0;
     private GameObject levelImage;
     private Text levelText;
-           
     private void Awake()
     {
         if (GameManager.instance == null)
@@ -33,7 +32,7 @@ public class GameManager : MonoBehaviour{
         }
 
         DontDestroyOnLoad(gameObject);
-    
+           
         boardScript = GetComponent<BoardManager>();
     } 
 
